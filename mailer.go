@@ -21,7 +21,7 @@ type Mailer struct {
 // New initializes a new mail.Dialer instace
 func New(smtp SMTP) Mailer {
 
-	host, port, username, password, sender := smtp.Host, smtp.Port, smtp.Username, smtp.Password, smtp.Sender
+	host, port, username, password, sender := smtp.Host, smtp.Port, smtp.Username, smtp.Password, smtp.SenderEmail
 
 	dialer := mail.NewDialer(host, port, username, password)
 	dialer.Timeout = 5 * time.Second

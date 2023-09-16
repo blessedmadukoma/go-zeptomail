@@ -29,7 +29,7 @@ func main() {
     Port: ""
     Username: ""
     Password: ""
-    Sender: ""
+    SenderEmail: ""
   }
 
   data = zeptomail.MailData{

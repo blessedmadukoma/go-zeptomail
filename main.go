@@ -9,11 +9,11 @@ import (
 )
 
 type SMTP struct {
-	Host     string
-	Port     int
-	Username string
-	Password string
-	Sender   string
+	Host        string
+	Port        int
+	Username    string
+	Password    string
+	SenderEmail string
 }
 
 type MailData struct {
@@ -35,7 +35,7 @@ func getSMTP() SMTP {
 	smtp.Port, _ = strconv.Atoi(os.Getenv("SMTP_PORT"))
 	smtp.Username = os.Getenv("SMTP_USERNAME")
 	smtp.Password = os.Getenv("SMTP_PASSWORD")
-	smtp.Sender = os.Getenv("SMTP_EMAIL_ADDRESS")
+	smtp.SenderEmail = os.Getenv("SMTP_EMAIL_ADDRESS")
 
 	return smtp
 }
