@@ -1,3 +1,15 @@
+// Package zeptomail provides a Go client for sending emails using the ZeptoMail API.
+//
+// See examples and usage details on GitHub: https://github.com/blessedmadukoma/go-zeptomail
+//
+// To use, create a client with your API key, construct an email, and send it.
+//
+// Example:
+//
+//	smtp := zeptomail.SMTP{...}
+//	client := zeptomail.New(smtp)
+//	data := zeptomail.MailData{...}
+//	err := client.Send(data)
 package zeptomail
 
 import (
