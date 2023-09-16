@@ -33,9 +33,9 @@ func main() {
   }
 
   data = zeptomail.MailData{
-    RecepientName:  "Your recepient name",
-		RecepientEmail: "email@mail.com",
-		TemplateFile:   "welcome.html",
+    RecipientName:  "Your recepient name",
+	RecipientEmail: "email@mail.com",
+	TemplateFile:   "welcome.html",
   }
     
   client := zeptomail.New(smtp)

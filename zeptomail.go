@@ -17,8 +17,8 @@ type SMTP struct {
 }
 
 type MailData struct {
-	RecepientName  string
-	RecepientEmail string
+	RecipientName  string
+	RecipientEmail string
 	TemplateFile   string
 }
 
@@ -46,8 +46,8 @@ func main() {
 	mailer := New(smtp)
 
 	data := MailData{
-		RecepientName:  "Blessed M.",
-		RecepientEmail: "recepient@gmail.com",
+		RecipientName:  "Blessed M.",
+		RecipientEmail: "recipient@gmail.com",
 		TemplateFile:   "welcome.html",
 	}
 

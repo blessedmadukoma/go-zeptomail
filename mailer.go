@@ -1,4 +1,4 @@
-package main
+package zeptomail
 
 import (
 	"bytes"
@@ -59,7 +59,7 @@ func (m Mailer) Send(data MailData) error {
 	}
 
 	msg := mail.NewMessage()
-	msg.SetHeader("To", data.RecepientEmail)
+	msg.SetHeader("To", data.RecipientEmail)
 	msg.SetHeader("From", m.sender)
 	msg.SetHeader("Subject", subject.String())
 	msg.SetBody("text/plain", plainBody.String())
