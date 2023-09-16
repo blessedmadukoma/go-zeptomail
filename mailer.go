@@ -10,7 +10,7 @@ import (
 	"github.com/go-mail/mail/v2"
 )
 
-//go:embed "templates"
+//go:embed templates/*
 var templateFS embed.FS
 
 type Mailer struct {
@@ -32,8 +32,7 @@ func New(smtp SMTP) Mailer {
 	}
 }
 
-// Send() takes the recipient email address, file name containing the templates, and any dynamic data for the templates
-// func (m Mailer) Send(recipient, templateFile string, data interface{}) error {
+// Send() takes a data containing the recipient email address, file name containing the templates, and any dynamic data for the templates
 func (m Mailer) Send(data MailData) error {
 	tmpl, err := template.New("email").ParseFS(templateFS, "templates/"+data.TemplateFile)
 	if err != nil {
