@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -10,11 +9,17 @@ import (
 )
 
 type SMTP struct {
-	host     string
-	port     int
-	username string
-	password string
-	sender   string
+	Host     string
+	Port     int
+	Username string
+	Password string
+	Sender   string
+}
+
+type MailData struct {
+	RecepientName  string
+	RecepientEmail string
+	TemplateFile   string
 }
 
 // getSMTP retreives the SMTP details from the env
@@ -26,11 +31,11 @@ func getSMTP() SMTP {
 
 	var smtp SMTP
 
-	smtp.host = os.Getenv("SMTP_HOST")
-	smtp.port, _ = strconv.Atoi(os.Getenv("SMTP_PORT"))
-	smtp.username = os.Getenv("SMTP_USERNAME")
-	smtp.password = os.Getenv("SMTP_PASSWORD")
-	smtp.sender = os.Getenv("SMTP_EMAIL_ADDRESS")
+	smtp.Host = os.Getenv("SMTP_HOST")
+	smtp.Port, _ = strconv.Atoi(os.Getenv("SMTP_PORT"))
+	smtp.Username = os.Getenv("SMTP_USERNAME")
+	smtp.Password = os.Getenv("SMTP_PASSWORD")
+	smtp.Sender = os.Getenv("SMTP_EMAIL_ADDRESS")
 
 	return smtp
 }
@@ -38,17 +43,15 @@ func getSMTP() SMTP {
 func main() {
 	smtp := getSMTP()
 
-	mailer := New(smtp.host, smtp.port, smtp.username, smtp.password, smtp.sender)
+	mailer := New(smtp)
 
-	fmt.Println(smtp.host, smtp.port, smtp.username, smtp.password, smtp.sender)
-
-	data := map[string]string{
-		"Name": "John Doe",
+	data := MailData{
+		RecepientName:  "Blessed M.",
+		RecepientEmail: "recepient@gmail.com",
+		TemplateFile:   "welcome.html",
 	}
 
-	recepient := "receipent@mail.com"
-
-	err := mailer.Send(recepient, "welcome.html", data)
+	err := mailer.Send(data)
 	if err != nil {
 		log.Fatal("Error sending mail: ", err)
 	}

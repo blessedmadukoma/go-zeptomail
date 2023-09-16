@@ -19,7 +19,9 @@ type Mailer struct {
 }
 
 // New initializes a new mail.Dialer instace
-func New(host string, port int, username, password, sender string) Mailer {
+func New(smtp SMTP) Mailer {
+
+	host, port, username, password, sender := smtp.Host, smtp.Port, smtp.Username, smtp.Password, smtp.Sender
 
 	dialer := mail.NewDialer(host, port, username, password)
 	dialer.Timeout = 5 * time.Second
@@ -31,8 +33,9 @@ func New(host string, port int, username, password, sender string) Mailer {
 }
 
 // Send() takes the recipient email address, file name containing the templates, and any dynamic data for the templates
-func (m Mailer) Send(recipient, templateFile string, data interface{}) error {
-	tmpl, err := template.New("email").ParseFS(templateFS, "templates/"+templateFile)
+// func (m Mailer) Send(recipient, templateFile string, data interface{}) error {
+func (m Mailer) Send(data MailData) error {
+	tmpl, err := template.New("email").ParseFS(templateFS, "templates/"+data.TemplateFile)
 	if err != nil {
 		return err
 	}
@@ -56,7 +59,7 @@ func (m Mailer) Send(recipient, templateFile string, data interface{}) error {
 	}
 
 	msg := mail.NewMessage()
-	msg.SetHeader("To", recipient)
+	msg.SetHeader("To", data.RecepientEmail)
 	msg.SetHeader("From", m.sender)
 	msg.SetHeader("Subject", subject.String())
 	msg.SetBody("text/plain", plainBody.String())
