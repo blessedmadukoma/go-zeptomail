@@ -1,5 +1,4 @@
-// package zeptomail
-package main
+package zeptomail
 
 import (
 	"bytes"
