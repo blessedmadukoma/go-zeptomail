@@ -32,8 +32,6 @@ func New(smtp SMTP) Mailer {
 
 // Send() takes a data containing the recipient email address, file name containing the templates, and any dynamic data for the templates
 func (m Mailer) Send(data MailData) error {
-	// tmpl, err := template.New("email").ParseFS(templateFS, "templates/"+data.TemplateFile)
-	// tmpl, err := template.New("email").ParseGlob("templates/*")
 	tmpl, err := LoadTemplate(data.TemplateFile)
 	if err != nil {
 		fmt.Println("error parsing template: ")
@@ -79,7 +77,7 @@ func (m Mailer) Send(data MailData) error {
 // LoadTemplate loads a template from the user's local 'templates' directory.
 func LoadTemplate(fileName string) (*template.Template, error) {
 	// Get the path to the user's 'templates' directory
-	templatesDir := "templates" // You can make this configurable if needed
+	templatesDir := "templates"
 
 	// Build the full path to the template file
 	templatePath := filepath.Join(templatesDir, fileName)
