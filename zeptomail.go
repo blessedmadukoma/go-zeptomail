@@ -10,7 +10,9 @@
 //	client := zeptomail.New(smtp)
 //	data := zeptomail.MailData{...}
 //	err := client.Send(data)
-package zeptomail
+//
+// package zeptomail
+package main
 
 import (
 	"log"

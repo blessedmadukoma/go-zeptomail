@@ -1,17 +1,14 @@
-package zeptomail
+// package zeptomail
+package main
 
 import (
 	"bytes"
-	"embed"
 	"html/template"
 	"log"
 	"time"
 
 	"github.com/go-mail/mail/v2"
 )
-
-//go:embed templates/*
-var templateFS embed.FS
 
 type Mailer struct {
 	dialer *mail.Dialer
@@ -34,10 +31,13 @@ func New(smtp SMTP) Mailer {
 
 // Send() takes a data containing the recipient email address, file name containing the templates, and any dynamic data for the templates
 func (m Mailer) Send(data MailData) error {
-	tmpl, err := template.New("email").ParseFS(templateFS, "templates/"+data.TemplateFile)
+	// tmpl, err := template.New("email").ParseFS(templateFS, "templates/"+data.TemplateFile)
+	tmpl, err := template.New("email").ParseGlob("templates/*")
 	if err != nil {
 		return err
 	}
+
+	tmpl.ParseFiles(data.TemplateFile)
 
 	subject := new(bytes.Buffer)
 	err = tmpl.ExecuteTemplate(subject, "subject", data)
