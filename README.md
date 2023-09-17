@@ -1,6 +1,6 @@
 # go-zeptomail
 
-`go-zeptomail` is a Go library for sending emails using the ZeptoMail API.
+`go-zeptomail` is a Go library for sending emails using the [ZeptoMail](https://zeptomail.com) API with HTML templates.
 
 ## Installation
 
@@ -24,18 +24,19 @@ import (
 )
 
 func main() {
+  // smtp uses the ZeptoMail configurations provided in your dashboard. Store in .env file
   smtp := zeptomail.SMTP{
-    Host: ""
-    Port: ""
-    Username: ""
-    Password: ""
-    SenderEmail: ""
+    Host: "smtp.zeptomail.com"
+    Port: 465
+    Username: "zeptomailusername"
+    Password: "zeptomailpassword"
+    SenderEmail: "zeptomail@mail.com"
   }
 
   data = zeptomail.MailData{
     RecipientName:  "Your recepient name",
-	RecipientEmail: "email@mail.com",
-	TemplateFile:   "welcome.html",
+    RecipientEmail: "email@mail.com",
+    TemplateFile:   "welcome.html",
   }
     
   client := zeptomail.New(smtp)
