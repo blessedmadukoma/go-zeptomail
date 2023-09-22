@@ -30,6 +30,23 @@ func New(smtp SMTP) Mailer {
 	}
 }
 
+// LoadTemplate loads a template from the user's local 'templates' directory.
+func LoadTemplate(fileName string) (*template.Template, error) {
+	// Get the path to the user's 'templates' directory
+	templatesDir := "templates"
+
+	// Build the full path to the template file
+	templatePath := filepath.Join(templatesDir, fileName)
+
+	// Open and parse the template file
+	tmpl, err := template.New("email").ParseFiles(templatePath)
+	if err != nil {
+		return nil, err
+	}
+
+	return tmpl, nil
+}
+
 // Send() takes a data containing the recipient email address, file name containing the templates, and any dynamic data for the templates
 func (m Mailer) Send(data MailData) error {
 	tmpl, err := LoadTemplate(data.TemplateFile)
@@ -72,21 +89,4 @@ func (m Mailer) Send(data MailData) error {
 
 	log.Println("=> Mail sent!")
 	return nil
-}
-
-// LoadTemplate loads a template from the user's local 'templates' directory.
-func LoadTemplate(fileName string) (*template.Template, error) {
-	// Get the path to the user's 'templates' directory
-	templatesDir := "templates"
-
-	// Build the full path to the template file
-	templatePath := filepath.Join(templatesDir, fileName)
-
-	// Open and parse the template file
-	tmpl, err := template.New("email").ParseFiles(templatePath)
-	if err != nil {
-		return nil, err
-	}
-
-	return tmpl, nil
 }
