@@ -87,6 +87,6 @@ func (m Mailer) Send(data MailData) error {
 		return err
 	}
 
-	log.Println("=> Mail sent!")
+	log.Printf("=> Mail sent to %s, %s!\n", data.RecipientName, data.RecipientEmail)
 	return nil
 }
