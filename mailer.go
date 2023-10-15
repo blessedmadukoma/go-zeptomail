@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"html/template"
-	"log"
 	"path/filepath"
 	"time"
 
@@ -48,11 +47,10 @@ func LoadTemplate(fileName string) (*template.Template, error) {
 }
 
 // Send() takes a data containing the recipient email address, file name containing the templates, and any dynamic data for the templates
-func (m Mailer) Send(data MailData) error {
+func (m Mailer) Send(data MailData) (message string, err error) {
 	tmpl, err := LoadTemplate(data.TemplateFile)
 	if err != nil {
-		fmt.Println("error parsing template: ")
-		return err
+		return "", fmt.Errorf("error parsing template: %v", err)
 	}
 
 	tmpl.ParseFiles(data.TemplateFile)
@@ -60,19 +58,19 @@ func (m Mailer) Send(data MailData) error {
 	subject := new(bytes.Buffer)
 	err = tmpl.ExecuteTemplate(subject, "subject", data)
 	if err != nil {
-		return err
+		return "", fmt.Errorf("error executing template with subject: %v", err)
 	}
 
 	plainBody := new(bytes.Buffer)
 	err = tmpl.ExecuteTemplate(plainBody, "plainBody", data)
 	if err != nil {
-		return err
+		return "", fmt.Errorf("error executing plainbody: %v", err)
 	}
 
 	htmlBody := new(bytes.Buffer)
 	err = tmpl.ExecuteTemplate(htmlBody, "htmlBody", data)
 	if err != nil {
-		return err
+		return "", fmt.Errorf("error executing HTML body: %v", err)
 	}
 
 	msg := mail.NewMessage()
@@ -84,9 +82,8 @@ func (m Mailer) Send(data MailData) error {
 
 	err = m.dialer.DialAndSend(msg)
 	if err != nil {
-		return err
+		return "", err
 	}
 
-	log.Printf("=> Mail sent to %s, %s!\n", data.RecipientName, data.RecipientEmail)
-	return nil
+	return fmt.Sprintf("mail sent to %s, %s!\n", data.RecipientName, data.RecipientEmail), nil
 }
