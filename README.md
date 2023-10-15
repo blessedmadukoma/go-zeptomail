@@ -26,23 +26,25 @@ import (
 func main() {
   // smtp uses the ZeptoMail configurations provided in your dashboard. Store in .env file
   smtp := zeptomail.SMTP{
-    Host: "smtp.zeptomail.com"
-    Port: 465
-    Username: "zeptomailusername"
-    Password: "zeptomailpassword"
-    SenderEmail: "zeptomail@mail.com"
+    Host: "smtp.zeptomail.com",
+    Port: 465,
+    Username: "zeptomailusername",
+    Password: "zeptomailpassword",
+    SenderEmail: "zeptomail@mail.com",
   }
 
-  data = zeptomail.MailData{
+  // payload for the send email request
+  data := zeptomail.MailData{
     RecipientName:  "Your recepient name",
     RecipientEmail: "email@mail.com",
     TemplateFile:   "welcome.html",
   }
     
+  // creates a new zeptomail instance
   client := zeptomail.New(smtp)
 
-  err := client.Send(data)
-  if err != nil {
+  // sends the email to the recipient's email address and check for error if any
+  if err := client.Send(data); err != nil {
       fmt.Println(err)
       return
   }
