@@ -45,6 +45,7 @@ func TestMain(t *testing.T) {
 	}
 	assert.NotNil(t, data)
 
-	err := mailer.Send(data)
+	response, err := mailer.Send(data)
 	assert.Nil(t, err)
+	assert.NotNil(t, response)
 }
