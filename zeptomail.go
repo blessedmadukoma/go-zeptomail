@@ -63,8 +63,10 @@ func main() {
 		TemplateFile:   "welcome.html",
 	}
 
-	err := mailer.Send(data)
+	response, err := mailer.Send(data)
 	if err != nil {
 		log.Fatal("Error sending mail: ", err)
 	}
+
+	log.Println("response:", response)
 }
