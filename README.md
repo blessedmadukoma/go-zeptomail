@@ -44,10 +44,14 @@ func main() {
   client := zeptomail.New(smtp)
 
   // sends the email to the recipient's email address and check for error if any
-  if err := client.Send(data); err != nil {
+  response, err := client.Send(data); 
+  if err != nil {
       fmt.Println(err)
       return
   }
+
+  // print the response
+  log.Println(response)
 }
 
 ```
